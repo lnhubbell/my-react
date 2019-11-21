@@ -43,6 +43,22 @@ function render(element, container) {
   container.appendChild(dom);
 }
 
+function workLoop(deadline) {
+  let shouldYield = false;
+  while (nextUnitofWork && !shouldYield) {
+    nextUnitofWork = performUnitOfWork(
+      nextUnitofWork
+    )
+    shouldYield = deadline.timeRemaining() < 1;
+  }
+  requestIdleCallback(workLoop);
+}
+
+requestIdleCallback(workLoop);
+
+function performUnitOfWork(nextUnitofWork) {
+  // TODO
+}
 
 const Didact = {
   createElement,
